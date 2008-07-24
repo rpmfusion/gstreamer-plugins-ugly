@@ -10,13 +10,12 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.7
+Version: 0.10.8
 Release: 2%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-Patch1: gst-plugins-ugly-0.10.6-asf-seek.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -56,7 +55,6 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
-%patch1 -p1
 
 
 %build
@@ -105,8 +103,12 @@ gstreamer-plugins-good because:
 
 
 %changelog
-* Wed Jul 23 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.7-2
+* Wed Jul 23 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-2
 - Release bump for rpmfusion
+
+* Thu May 22 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-1
+- New upstream release 0.10.8
+- Drop upstreamed patches
 
 * Sun Feb 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.7-1
 - New upstream release 0.10.7
