@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -64,7 +64,8 @@ gstreamer-plugins-good because:
     --with-package-name="gst-plugins-bad rpmfusion rpm" \
     --with-package-origin="http://rpmfusion.org/" \
     --enable-debug \
-    --disable-static
+    --disable-static \
+    --disable-amrnb
 %{__make} %{?_smp_mflags}
 
 
@@ -104,6 +105,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Wed Jul 23 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.7-2
+- Release bump for rpmfusion
+
 * Sun Feb 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.7-1
 - New upstream release 0.10.7
 - Drop upstreamed patches
