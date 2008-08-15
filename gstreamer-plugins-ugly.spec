@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.8
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -55,6 +55,9 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
+# stupid dvdread includes rename <GRRR>
+sed -i 's|dvdread/dvd_reader.h|libdvdread/dvd_reader.h|g' configure
+sed -i 's|#include <dvdread/|#include <libdvdread/|g' ext/dvdread/dvdreadsrc.h
 
 
 %build
@@ -103,6 +106,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Fri Aug 15 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-3
+- Fix building of dvdread plugin with libdvdread includes rename
+
 * Wed Jul 23 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-2
 - Release bump for rpmfusion
 
