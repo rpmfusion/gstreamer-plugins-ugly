@@ -10,12 +10,14 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.8
-Release: 3%{?dist}
+Version: 0.10.9
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
+# Backport from upstream cvs to fix asf seeking, drop on next upstream rebase
+Patch0: gstasfdemux.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -32,6 +34,7 @@ BuildRequires: libid3tag-devel >= 0.15.0
 BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: liboil-devel
+BuildRequires: libcdio-devel
 BuildRequires: PyXML
 
 Provides: gstreamer-sid = %{version}-%{release}
@@ -55,6 +58,7 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
+%patch0 -p1
 # stupid dvdread includes rename <GRRR>
 sed -i 's|dvdread/dvd_reader.h|libdvdread/dvd_reader.h|g' configure
 sed -i 's|#include <dvdread/|#include <libdvdread/|g' ext/dvdread/dvdreadsrc.h
@@ -97,6 +101,7 @@ sed -i 's|#include <dvdread/|#include <libdvdread/|g' ext/dvdread/dvdreadsrc.h
 %{_libdir}/gstreamer-%{majorminor}/libgstrmdemux.so
 # Plugins with external dependencies
 %{_libdir}/gstreamer-%{majorminor}/libgsta52dec.so
+%{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
 #%{_libdir}/gstreamer-%{majorminor}/libgstdvdnav.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
@@ -106,6 +111,9 @@ sed -i 's|#include <dvdread/|#include <libdvdread/|g' ext/dvdread/dvdreadsrc.h
 
 
 %changelog
+* Sat Sep 14 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.9-1
+- New upstream release 0.10.9
+
 * Fri Aug 15 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-3
 - Fix building of dvdread plugin with libdvdread includes rename
 
