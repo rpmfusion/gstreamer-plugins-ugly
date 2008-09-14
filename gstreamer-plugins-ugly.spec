@@ -59,9 +59,6 @@ gstreamer-plugins-good because:
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
 %patch0 -p1
-# stupid dvdread includes rename <GRRR>
-sed -i 's|dvdread/dvd_reader.h|libdvdread/dvd_reader.h|g' configure
-sed -i 's|#include <dvdread/|#include <libdvdread/|g' ext/dvdread/dvdreadsrc.h
 
 
 %build
