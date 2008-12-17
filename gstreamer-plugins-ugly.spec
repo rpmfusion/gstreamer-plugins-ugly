@@ -10,16 +10,13 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.9
-Release: 2%{?dist}
+Version: 0.10.10
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-# Backport from upstream cvs to fix asf seeking, drop on next upstream rebase
-Patch0: gstasfdemux.patch
-# Backport from upstream cvs to fix playback of certain mp3 streams
-Patch1: gst-plugins-ugly-0.10.9-gstmpegaudioparse.patch
+Patch0: gst-plugins-ugly-0.10.10-mpeg2dec.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -61,7 +58,6 @@ gstreamer-plugins-good because:
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
 %patch0 -p1
-%patch1 -p1
 
 
 %build
@@ -111,6 +107,10 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Wed Dec 17 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-1
+- New upstream release 0.10.10
+- Backport some mpeg2dec crash fixes from CVS
+
 * Tue Nov  4 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.9-2
 - Fix decoding of certain mp3 files (rpmfusion bug 108)
 
