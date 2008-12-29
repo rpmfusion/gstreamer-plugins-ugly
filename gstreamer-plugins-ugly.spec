@@ -11,12 +11,13 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
 Patch0: gst-plugins-ugly-0.10.10-mpeg2dec.patch
+Patch1: gst-plugins-ugly-0.10.10-mad.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -58,6 +59,7 @@ gstreamer-plugins-good because:
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
 %patch0 -p1
+%patch1 -p1
 
 
 %build
@@ -107,6 +109,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Mon Dec 29 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-2
+- Take a stab at fixing rpmfusion bug 282
+
 * Wed Dec 17 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-1
 - New upstream release 0.10.10
 - Backport some mpeg2dec crash fixes from CVS
