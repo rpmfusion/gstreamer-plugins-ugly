@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.10
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -109,6 +109,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Wed Jan 21 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-3
+- Rebuild for new libcdio (rpmfusion 335)
+
 * Mon Dec 29 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-2
 - Take a stab at fixing rpmfusion bug 282
 
