@@ -1,0 +1,254 @@
+diff -ur gst-plugins-ugly-0.10.10/gst/asfdemux/gstasfdemux.c gst-plugins-ugly-0.10.10.new/gst/asfdemux/gstasfdemux.c
+--- gst-plugins-ugly-0.10.10/gst/asfdemux/gstasfdemux.c	2008-11-12 23:48:28.000000000 +0100
++++ gst-plugins-ugly-0.10.10.new/gst/asfdemux/gstasfdemux.c	2009-01-23 13:56:18.000000000 +0100
+@@ -23,9 +23,6 @@
+  * - _loop():
+  *   stop if at end of segment if != end of file, ie. demux->segment.stop
+  *
+- * - _chain(): fix newsegment events for live streams where timestamps don't
+- *   start at zero (need sample files/streams for this)
+- *
+  * - fix packet parsing:
+  *   there's something wrong with timestamps for packets with keyframes,
+  *   and durations too.
+@@ -266,6 +263,7 @@
+ 
+   demux = GST_ASF_DEMUX (GST_OBJECT_PARENT (sinkpad));
+ 
++  demux->push_mode = TRUE;
+   demux->state = GST_ASF_DEMUX_STATE_HEADER;
+   demux->streaming = TRUE;
+ 
+@@ -278,6 +276,7 @@
+   GstASFDemux *demux;
+ 
+   demux = GST_ASF_DEMUX (GST_OBJECT_PARENT (pad));
++  demux->push_mode = FALSE;
+ 
+   if (active) {
+     demux->state = GST_ASF_DEMUX_STATE_HEADER;
+@@ -315,8 +314,16 @@
+       }
+ 
+       GST_OBJECT_LOCK (demux);
++      if (demux->packet_size && newsegment_start > demux->data_offset)
++        demux->packet = (newsegment_start - demux->data_offset) /
++                        demux->packet_size;
++      else
++        demux->packet = 0;
++      demux->need_newsegment = TRUE;
+       gst_asf_demux_reset_stream_state_after_discont (demux);
+       GST_OBJECT_UNLOCK (demux);
++
++      gst_event_unref (event);
+       break;
+     }
+     case GST_EVENT_EOS:{
+@@ -333,6 +340,14 @@
+       break;
+     }
+ 
++    case GST_EVENT_FLUSH_START:
++    case GST_EVENT_FLUSH_STOP:
++      GST_OBJECT_LOCK (demux);
++      gst_asf_demux_reset_stream_state_after_discont (demux);
++      GST_OBJECT_UNLOCK (demux);
++      gst_asf_demux_send_event_unlocked (demux, event);
++      break;
++
+     default:
+       ret = gst_pad_event_default (pad, event);
+       break;
+@@ -342,6 +357,7 @@
+   return ret;
+ }
+ 
++/* Only used in pull mode */
+ static gboolean
+ gst_asf_demux_seek_index_lookup (GstASFDemux * demux, guint * packet,
+     GstClockTime seek_time, GstClockTime * p_idx_time)
+@@ -452,6 +468,11 @@
+   accurate = ((flags & GST_SEEK_FLAG_ACCURATE) == GST_SEEK_FLAG_ACCURATE);
+   keyunit_sync = ((flags & GST_SEEK_FLAG_KEY_UNIT) == GST_SEEK_FLAG_KEY_UNIT);
+ 
++  if (demux->push_mode) {
++    gst_event_ref (event);
++    return gst_pad_push_event (demux->sinkpad, event);
++  }
++
+   /* unlock the streaming thread */
+   if (flush) {
+     gst_pad_push_event (demux->sinkpad, gst_event_new_flush_start ());
+@@ -630,6 +651,7 @@
+   return TRUE;
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_chain_headers (GstASFDemux * demux)
+ {
+@@ -724,6 +746,7 @@
+   return GST_FLOW_NOT_LINKED;
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_chain (GstPad * pad, GstBuffer * buf)
+ {
+@@ -748,21 +771,6 @@
+       /* otherwise fall through */
+     }
+     case GST_ASF_DEMUX_STATE_DATA:{
+-
+-      if (demux->need_newsegment) {
+-        GST_DEBUG_OBJECT (demux, "sending new-segment event from %"
+-            GST_SEGMENT_FORMAT, &demux->segment);
+-
+-        /* FIXME: check last parameter, streams may have non-zero start */
+-        gst_asf_demux_send_event_unlocked (demux,
+-            gst_event_new_new_segment (FALSE, demux->segment.rate,
+-                GST_FORMAT_TIME, demux->segment.start, demux->segment.stop,
+-                demux->segment.start));
+-
+-        demux->need_newsegment = FALSE;
+-        demux->segment_running = TRUE;
+-      }
+-
+       while (gst_adapter_available (demux->adapter) >= demux->packet_size) {
+         guint64 data_size;
+         guint8 *data;
+@@ -810,6 +818,7 @@
+   return ret;
+ }
+ 
++/* Only used in pull mode */
+ static gboolean
+ gst_asf_demux_pull_data (GstASFDemux * demux, guint64 offset, guint size,
+     GstBuffer ** p_buf, GstFlowReturn * p_flow)
+@@ -846,6 +855,7 @@
+   return TRUE;
+ }
+ 
++/* Only used in pull mode */
+ static void
+ gst_asf_demux_pull_indices (GstASFDemux * demux)
+ {
+@@ -944,6 +954,7 @@
+   return TRUE;
+ }
+ 
++/* Only used in pull mode */
+ static gboolean
+ gst_asf_demux_pull_headers (GstASFDemux * demux)
+ {
+@@ -1179,6 +1190,7 @@
+   return best_stream;
+ }
+ 
++/* Only used in pull mode */
+ static GstFlowReturn
+ gst_asf_demux_push_complete_payloads (GstASFDemux * demux, gboolean force)
+ {
+@@ -1262,6 +1274,7 @@
+   return gst_asf_demux_aggregate_flow_return (demux);
+ }
+ 
++/* Only used in pull mode */
+ static void
+ gst_asf_demux_loop (GstASFDemux * demux)
+ {
+@@ -3241,6 +3254,7 @@
+   return ret;
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_push_buffer (GstASFDemux * demux, AsfStream * stream,
+     GstBuffer * buf)
+@@ -3255,23 +3269,46 @@
+     stream->pending_tags = NULL;
+   }
+ 
++  /* Note we always get called with a buffer with a valid timestamp, so we
++     do not need to check the timestamp */
++
++  if (demux->need_newsegment) {
++    gst_segment_set_seek (&demux->segment, demux->segment.rate,
++      GST_FORMAT_TIME, demux->segment.flags, GST_SEEK_TYPE_SET,
++      GST_BUFFER_TIMESTAMP (buf), GST_SEEK_TYPE_NONE, 0, NULL);
++
++    if (demux->segment.stop == GST_CLOCK_TIME_NONE &&
++        demux->segment.duration > 0) {
++      demux->segment.stop = demux->segment.duration;
++    }
++
++    GST_DEBUG_OBJECT (demux, "sending new-segment event from %"
++        GST_SEGMENT_FORMAT, &demux->segment);
++
++    gst_asf_demux_send_event_unlocked (demux,
++      gst_event_new_new_segment (FALSE, demux->segment.rate,
++                                 GST_FORMAT_TIME, demux->segment.start,
++                                 demux->segment.stop, demux->segment.start));
++
++    demux->need_newsegment = FALSE;
++    demux->segment_running = TRUE;
++  }
++
+   /* don't set the same time stamp on multiple consecutive outgoing
+    * video buffers, set it on the first one and set NONE on the others,
+    * it's the decoder's job to fill the missing bits properly */
+-  if (stream->is_video && GST_BUFFER_TIMESTAMP_IS_VALID (buf) &&
++  if (stream->is_video &&
+       GST_BUFFER_TIMESTAMP (buf) == stream->last_buffer_timestamp) {
+     GST_BUFFER_TIMESTAMP (buf) = GST_CLOCK_TIME_NONE;
+   }
+ 
+   /* make sure segment.last_stop is continually increasing */
+-  if (GST_BUFFER_TIMESTAMP_IS_VALID (buf) &&
+-      demux->segment.last_stop < (gint64) GST_BUFFER_TIMESTAMP (buf)) {
++  if (demux->segment.last_stop < (gint64) GST_BUFFER_TIMESTAMP (buf)) {
+     gst_segment_set_last_stop (&demux->segment, GST_FORMAT_TIME,
+         GST_BUFFER_TIMESTAMP (buf));
+   }
+ 
+-  if (GST_BUFFER_TIMESTAMP_IS_VALID (buf))
+-    stream->last_buffer_timestamp = GST_BUFFER_TIMESTAMP (buf);
++  stream->last_buffer_timestamp = GST_BUFFER_TIMESTAMP (buf);
+ 
+   gst_buffer_set_caps (buf, stream->caps);
+ 
+@@ -3289,6 +3326,7 @@
+   return stream->last_flow;
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_process_chunk (GstASFDemux * demux,
+     asf_packet_info * packet_info, asf_segment_info * segment_info,
+@@ -3493,6 +3531,7 @@
+   return ret;
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_process_segment (GstASFDemux * demux,
+     asf_packet_info * packet_info, guint8 ** p_data, guint64 * p_size)
+@@ -3678,6 +3717,7 @@
+   }
+ }
+ 
++/* Only used in push mode */
+ static GstFlowReturn
+ gst_asf_demux_handle_data (GstASFDemux * demux, guint8 ** p_data,
+     guint64 * p_size)
+diff -ur gst-plugins-ugly-0.10.10/gst/asfdemux/gstasfdemux.h gst-plugins-ugly-0.10.10.new/gst/asfdemux/gstasfdemux.h
+--- gst-plugins-ugly-0.10.10/gst/asfdemux/gstasfdemux.h	2008-01-08 17:31:29.000000000 +0100
++++ gst-plugins-ugly-0.10.10.new/gst/asfdemux/gstasfdemux.h	2009-01-23 13:34:10.000000000 +0100
+@@ -171,6 +171,7 @@
+   gboolean             need_newsegment;  /* do we need to send a new-segment event? */
+   gboolean             segment_running;  /* if we've started the current segment    */
+   gboolean             streaming;        /* TRUE if we are operating chain-based    */
++  gboolean             push_mode;        /* are we operating in push_mode? */
+ 
+   /* Descrambler settings */
+   guint8               span;

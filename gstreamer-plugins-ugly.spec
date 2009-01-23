@@ -11,13 +11,14 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.10
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
 Patch0: gst-plugins-ugly-0.10.10-mpeg2dec.patch
 Patch1: gst-plugins-ugly-0.10.10-mad.patch
+Patch2: gst-plugins-ugly-0.10.10-asf-push-seek.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -60,6 +61,7 @@ gstreamer-plugins-good because:
 %setup -q -n gst-plugins-ugly-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 
 %build
@@ -109,6 +111,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Fri Jan 23 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-4
+- Patch asfdemux plugin to properly handle seeking with push based sources
+
 * Wed Jan 21 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-3
 - Rebuild for new libcdio (rpmfusion 335)
 
