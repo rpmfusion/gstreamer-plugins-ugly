@@ -34,6 +34,7 @@ BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: liboil-devel
 BuildRequires: libcdio-devel
+BuildRequires: twolame-devel
 BuildRequires: PyXML
 
 Provides: gstreamer-sid = %{version}-%{release}
