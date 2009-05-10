@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.9
-Release: 2%{?dist}
+Release: 2%{?dist}.1
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -27,7 +27,8 @@ BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 
 BuildRequires: gettext-devel
 
-BuildRequires: libsidplay-devel >= 1.36.0
+# no libsidplay in EPEL5; enable later if it becomes avilable (1/3)
+# BuildRequires: libsidplay-devel >= 1.36.0
 BuildRequires: a52dec-devel >= 0.7.3
 #BuildRequires: libdvdnav-devel >= 0.1.3
 BuildRequires: libdvdread-devel >= 0.9.0
@@ -39,7 +40,8 @@ BuildRequires: liboil-devel
 BuildRequires: libcdio-devel
 BuildRequires: PyXML
 
-Provides: gstreamer-sid = %{version}-%{release}
+# no libsidplay in EPEL5; enable later if it becomes avilable (2/3)
+#Provides: gstreamer-sid = %{version}-%{release}
 Provides: gstreamer-lame = %{version}-%{release}
 Provides: gstreamer-mad = %{version}-%{release}
 Provides: gstreamer-a52dec = %{version}-%{release}
@@ -107,10 +109,15 @@ gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
-%{_libdir}/gstreamer-%{majorminor}/libgstsid.so
+# no libsidplay in EPEL5; enable later if it becomes avilable (3/3)
+# {_libdir}/gstreamer-%{majorminor}/libgstsid.so
 
 
 %changelog
+* Sun May 10 2009 Thorsten Leemhuis <feodra at leemhuis dot info > 0.10.9-2.1
+- adjust Fedora spec file for EL:
+-- don't build libgstsid.so, as libsidplay is not in EPEL
+
 * Tue Nov  4 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.9-2
 - Fix decoding of certain mp3 files (rpmfusion bug 108)
 
