@@ -10,13 +10,12 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.11
-Release: 2%{?dist}
+Version: 0.10.12
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-Patch1: gst-plugins-ugly-0.10.10-mad.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -35,6 +34,7 @@ BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: liboil-devel
 BuildRequires: libcdio-devel
 BuildRequires: twolame-devel
+BuildRequires: x264-devel
 BuildRequires: PyXML
 
 Provides: gstreamer-sid = %{version}-%{release}
@@ -58,7 +58,6 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
-%patch1 -p1
 
 
 %build
@@ -88,6 +87,7 @@ gstreamer-plugins-good because:
 %files -f gst-plugins-ugly-%{majorminor}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README REQUIREMENTS
+%{_datadir}/gstreamer-%{majorminor}/presets
 # Plugins without external dependencies
 %{_libdir}/gstreamer-%{majorminor}/libgstasf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdlpcmdec.so
@@ -106,9 +106,13 @@ gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsid.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
+%{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
 
 %changelog
+* Fri Jun 19 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.12-1
+- New upstream release 0.10.12
+
 * Wed Jun 17 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.11-2
 - Rebuild for changes in the gstreamer provides script
 
