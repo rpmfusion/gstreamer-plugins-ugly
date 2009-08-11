@@ -11,11 +11,12 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.12
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
+Patch0: gstreamer-plugins-ugly-opencore-amr.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -25,7 +26,6 @@ BuildRequires: gettext-devel
 
 BuildRequires: libsidplay-devel >= 1.36.0
 BuildRequires: a52dec-devel >= 0.7.3
-#BuildRequires: libdvdnav-devel >= 0.1.3
 BuildRequires: libdvdread-devel >= 0.9.0
 BuildRequires: lame-devel >= 3.89
 BuildRequires: libid3tag-devel >= 0.15.0
@@ -35,13 +35,14 @@ BuildRequires: liboil-devel
 BuildRequires: libcdio-devel
 BuildRequires: twolame-devel
 BuildRequires: x264-devel
+BuildRequires: opencore-amr-devel
 BuildRequires: PyXML
+BuildRequires: libtool
 
 Provides: gstreamer-sid = %{version}-%{release}
 Provides: gstreamer-lame = %{version}-%{release}
 Provides: gstreamer-mad = %{version}-%{release}
 Provides: gstreamer-a52dec = %{version}-%{release}
-#Provides: gstreamer-dvdnav = %{version}-%{release}
 Provides: gstreamer-dvdread = %{version}-%{release}
 Provides: gstreamer-mpeg2dec = %{version}-%{release}
 
@@ -58,21 +59,23 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
+mkdir ext/amrwbdec
+%patch0 -p1 -z .amr
+./autogen.sh
 
 
 %build
 %configure \
-    --with-package-name="gst-plugins-bad rpmfusion rpm" \
+    --with-package-name="gst-plugins-ugly rpmfusion rpm" \
     --with-package-origin="http://rpmfusion.org/" \
     --enable-debug \
-    --disable-static \
-    --disable-amrnb
+    --disable-static
 %{__make} %{?_smp_mflags}
 
 
 %install
 %{__rm} -rf %{buildroot}
-%makeinstall
+%{__make} install DESTDIR="%{buildroot}"
 %find_lang gst-plugins-ugly-%{majorminor}
 
 # Clean out files that should not be part of the rpm.
@@ -98,8 +101,9 @@ gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstrmdemux.so
 # Plugins with external dependencies
 %{_libdir}/gstreamer-%{majorminor}/libgsta52dec.so
+%{_libdir}/gstreamer-%{majorminor}/libgstamrnb.so
+%{_libdir}/gstreamer-%{majorminor}/libgstamrwbdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstdvdnav.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
@@ -110,6 +114,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Tue Aug 11 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.12-2
+- Add patch which adds amrnb / amrwb decoding using opencore-amr
+
 * Fri Jun 19 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.12-1
 - New upstream release 0.10.12
 
