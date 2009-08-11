@@ -38,7 +38,7 @@ BuildRequires: x264-devel
 BuildRequires: opencore-amr-devel
 BuildRequires: PyXML
 # For autofoo regeneration, can be dropped when we stop doing that
-BuildRequires: libtool cvs
+BuildRequires: libtool cvs gtk-doc
 
 Provides: gstreamer-sid = %{version}-%{release}
 Provides: gstreamer-lame = %{version}-%{release}
