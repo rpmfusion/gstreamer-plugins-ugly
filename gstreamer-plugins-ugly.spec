@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.12
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -115,6 +115,9 @@ mkdir ext/amrwbdec
 
 
 %changelog
+* Tue Oct 20 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.10.12-3
+- rebuilt
+
 * Tue Aug 11 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.12-2
 - Add patch which adds amrnb / amrwb decoding using opencore-amr
 
