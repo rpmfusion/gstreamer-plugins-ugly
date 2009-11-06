@@ -1,0 +1,15 @@
+diff -up gst-plugins-ugly-0.10.12/ext/x264/gstx264enc.c.x264 gst-plugins-ugly-0.10.12/ext/x264/gstx264enc.c
+--- gst-plugins-ugly-0.10.12/ext/x264/gstx264enc.c.x264	2009-06-05 22:02:52.000000000 +0200
++++ gst-plugins-ugly-0.10.12/ext/x264/gstx264enc.c	2009-10-26 16:44:43.000000000 +0100
+@@ -576,7 +576,11 @@ gst_x264_enc_init_encoder (GstX264Enc * 
+   encoder->x264param.analyse.i_noise_reduction = encoder->noise_reduction;
+   encoder->x264param.i_frame_reference = encoder->ref;
+   encoder->x264param.i_bframe = encoder->bframes;
++#if X264_BUILD < 78
+   encoder->x264param.b_bframe_pyramid = encoder->b_pyramid;
++#else
++  encoder->x264param.i_bframe_pyramid = encoder->b_pyramid;
++#endif
+ #if X264_BUILD < 63
+   encoder->x264param.b_bframe_adaptive = encoder->b_adapt;
+ #else

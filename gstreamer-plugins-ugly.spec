@@ -11,12 +11,13 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.12
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
 Patch0: gstreamer-plugins-ugly-opencore-amr.patch
+Patch1: gstreamer-plugins-ugly-x264.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -62,6 +63,7 @@ gstreamer-plugins-good because:
 %setup -q -n gst-plugins-ugly-%{version}
 mkdir ext/amrwbdec
 %patch0 -p1 -z .amr
+%patch1 -p1 -b .x264
 ./autogen.sh
 
 
@@ -115,6 +117,9 @@ mkdir ext/amrwbdec
 
 
 %changelog
+* Fri Nov 06 2009 Dominik Mierzejewski <rpm@greysector.net> - 0.10.12-4
+- Fix compilation against current x264
+
 * Tue Oct 20 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.10.12-3
 - rebuilt
 
