@@ -10,13 +10,12 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.12
-Release: 4%{?dist}
+Version: 0.10.13
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-Patch0: gstreamer-plugins-ugly-opencore-amr.patch
 Patch1: gstreamer-plugins-ugly-x264.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
@@ -38,8 +37,6 @@ BuildRequires: twolame-devel
 BuildRequires: x264-devel
 BuildRequires: opencore-amr-devel
 BuildRequires: PyXML
-# For autofoo regeneration, can be dropped when we stop doing that
-BuildRequires: libtool cvs
 
 Provides: gstreamer-sid = %{version}-%{release}
 Provides: gstreamer-lame = %{version}-%{release}
@@ -61,10 +58,7 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
-mkdir ext/amrwbdec
-%patch0 -p1 -z .amr
 %patch1 -p1 -b .x264
-./autogen.sh
 
 
 %build
@@ -93,7 +87,7 @@ mkdir ext/amrwbdec
 %files -f gst-plugins-ugly-%{majorminor}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README REQUIREMENTS
-%{_datadir}/gstreamer-%{majorminor}/presets
+%{_datadir}/gstreamer-%{majorminor}
 # Plugins without external dependencies
 %{_libdir}/gstreamer-%{majorminor}/libgstasf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdlpcmdec.so
@@ -117,6 +111,9 @@ mkdir ext/amrwbdec
 
 
 %changelog
+* Sat Nov  7 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.13-1
+- New upstream release 0.10.13
+
 * Fri Nov 06 2009 Dominik Mierzejewski <rpm@greysector.net> - 0.10.12-4
 - Fix compilation against current x264
 
