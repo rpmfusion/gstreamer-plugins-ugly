@@ -10,13 +10,12 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.13
+Version: 0.10.14
 Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-Patch1: gstreamer-plugins-ugly-x264.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -58,7 +57,6 @@ gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
-%patch1 -p1 -b .x264
 
 
 %build
@@ -111,6 +109,12 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Sun Mar 14 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.14-1
+- New upstream release 0.10.14
+
+* Mon Jan 25 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.13-2
+- Rebuild for new libcdio and new x264
+
 * Sat Nov  7 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.13-1
 - New upstream release 0.10.13
 
