@@ -10,8 +10,8 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.14
-Release: 2%{?dist}
+Version: 0.10.15
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -130,6 +130,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Sun Jun 13 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.15-1
+- New upstream release 0.10.15
+
 * Sat May 29 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.14-2
 - Rebuild for new libx264 (rfbz#1235)
 - Build and package gtk-doc (rbfz#1213)
