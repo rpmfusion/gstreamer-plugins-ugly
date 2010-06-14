@@ -10,7 +10,7 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.14
+Version: 0.10.15
 Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
@@ -22,6 +22,7 @@ BuildRequires: %{gstreamer}-devel >= %{gst_minver}
 BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 
 BuildRequires: gettext-devel
+BuildRequireS: gtk-doc
 
 BuildRequires: libsidplay-devel >= 1.36.0
 BuildRequires: a52dec-devel >= 0.7.3
@@ -55,6 +56,22 @@ gstreamer-plugins-good because:
 - there are possible licensing issues with the code.
 
 
+%package devel-docs
+Summary: Development documentation for the GStreamer "ugly" plug-ins
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+
+%description devel-docs
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+This package contains the development documentation for the plug-ins that can't
+be shipped in gstreamer-plugins-good because:
+- the license is not LGPL
+- the license of the library is not LGPL
+- there are possible licensing issues with the code.
+
+
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
 
@@ -63,7 +80,7 @@ gstreamer-plugins-good because:
 %configure \
     --with-package-name="gst-plugins-ugly rpmfusion rpm" \
     --with-package-origin="http://rpmfusion.org/" \
-    --enable-debug \
+    --enable-debug --enable-gtk-doc \
     --disable-static
 %{__make} %{?_smp_mflags}
 
@@ -107,8 +124,19 @@ gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
+%files devel-docs
+%defattr(-,root,root,-)
+%doc %{_datadir}/gtk-doc/html/gst-plugins-ugly-plugins-0.10
+
 
 %changelog
+* Sun Jun 13 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.15-1
+- New upstream release 0.10.15
+
+* Sat May 29 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.14-2
+- Rebuild for new libx264 (rfbz#1235)
+- Build and package gtk-doc (rbfz#1213)
+
 * Sun Mar 14 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.14-1
 - New upstream release 0.10.14
 
