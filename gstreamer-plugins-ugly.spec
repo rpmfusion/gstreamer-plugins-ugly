@@ -10,8 +10,8 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.15
-Release: 2%{?dist}
+Version: 0.10.16
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -31,7 +31,7 @@ BuildRequires: lame-devel >= 3.89
 BuildRequires: libid3tag-devel >= 0.15.0
 BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
-BuildRequires: liboil-devel
+BuildRequires: orc-devel >= 0.4.5
 BuildRequires: libcdio-devel >= 0.82
 BuildRequires: twolame-devel
 BuildRequires: x264-devel >= 0.0.0-0.28
@@ -131,6 +131,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Sun Sep 12 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.16-1
+- New upstream release 0.10.15
+
 * Sat Jul 17 2010 Hans de Goede <j.w.r.degoede@gmail.com> 0.10.15-2
 - Rebuild for new x264
 - Make devel-docs subpackage noarch (rf#1310)
