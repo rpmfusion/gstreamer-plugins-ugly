@@ -1,0 +1,11 @@
+--- gst-plugins-ugly-0.10.17/gst/mpegaudioparse/plugin.c~	2009-05-21 20:45:29.000000000 +0200
++++ gst-plugins-ugly-0.10.17/gst/mpegaudioparse/plugin.c	2011-01-31 17:16:35.738221028 +0100
+@@ -31,7 +31,7 @@ plugin_init (GstPlugin * plugin)
+   if (!gst_element_register (plugin, "xingmux", GST_RANK_NONE,
+           GST_TYPE_XING_MUX))
+     return FALSE;
+-  if (!gst_element_register (plugin, "mp3parse", GST_RANK_PRIMARY + 1,
++  if (!gst_element_register (plugin, "mp3parse", GST_RANK_PRIMARY + 3,
+           GST_TYPE_MP3PARSE))
+     return FALSE;
+ 

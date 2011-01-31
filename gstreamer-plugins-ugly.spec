@@ -10,12 +10,13 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.16
-Release: 2%{?dist}
+Version: 0.10.17
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
+Patch0: gst-plugins-ugly-0.10.17-mp3parse-rank.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
@@ -75,6 +76,7 @@ be shipped in gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
+%patch0 -p1
 
 
 %build
@@ -131,6 +133,12 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Fri Jan 28 2011 Hans de Goede <j.w.r.degoede@hhs.nl> - 0.10.17-1
+- New upstream release 0.10.17
+- Temporarily boost mp3parse element rank so that it gets prefered
+  over the new (and buggy) mpegaudioparse element from
+  gstreamer-plugins-bad-free (gnome#641047)
+
 * Fri Oct 15 2010 Nicolas Chauvet <kwizart@gmail.com> - 0.10.16-2
 - Rebuilt for gcc bug
 
