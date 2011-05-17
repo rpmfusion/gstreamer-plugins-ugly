@@ -5,25 +5,24 @@
 %define majorminor   0.10
 %define gstreamer    gstreamer
 
-%define gst_minver   0.10.6
-%define gstpb_minver 0.10.3
+%define gst_minver   0.10.26
+%define gstpb_minver 0.10.26
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.17
-Release: 3%{?dist}
+Version: 0.10.18
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-Patch0: gst-plugins-ugly-0.10.17-mp3parse-rank.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
 BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 
 BuildRequires: gettext-devel
-BuildRequireS: gtk-doc
+BuildRequires: gtk-doc
 
 BuildRequires: libsidplay-devel >= 1.36.0
 BuildRequires: a52dec-devel >= 0.7.3
@@ -76,7 +75,6 @@ be shipped in gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
-%patch0 -p1
 
 
 %build
@@ -133,6 +131,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Tue May 17 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.18-1
+- New upstream release 0.10.18
+
 * Thu Apr 21 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.17-3
 - Rebuild for proper package kit magic provides (rhbz#695730, rf#1706)
 
