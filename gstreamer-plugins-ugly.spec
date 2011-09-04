@@ -11,12 +11,11 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.18
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
 BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
@@ -87,17 +86,12 @@ be shipped in gstreamer-plugins-good because:
 
 
 %install
-%{__rm} -rf %{buildroot}
 %{__make} install DESTDIR="%{buildroot}"
 %find_lang gst-plugins-ugly-%{majorminor}
 
 # Clean out files that should not be part of the rpm.
 %{__rm} -f %{buildroot}%{_libdir}/gstreamer-%{majorminor}/*.la
 %{__rm} -f %{buildroot}%{_libdir}/*.la
-
-
-%clean
-%{__rm} -rf %{buildroot}
 
 
 %files -f gst-plugins-ugly-%{majorminor}.lang
@@ -131,6 +125,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Sun Sep  4 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.18-3
+- Rebuilt for new x264
+
 * Fri Jul 15 2011 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-2
 - Rebuilt for x264 ABI 115
 
