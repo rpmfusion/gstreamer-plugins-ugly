@@ -23,7 +23,7 @@ BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 
-%if 0%{?fedora} <= 17 || 0%{?rhel} <= 6 
+%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6 
 BuildRequires: libsidplay-devel >= 1.36.0
 %endif
 BuildRequires: a52dec-devel >= 0.7.3
@@ -117,7 +117,7 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
-%if 0%{?fedora} <= 17 || 0%{?rhel} <= 6
+%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6
 %{_libdir}/gstreamer-%{majorminor}/libgstsid.so
 %endif
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
