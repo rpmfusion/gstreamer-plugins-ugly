@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -23,7 +23,7 @@ BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 
-%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6 
+%if 0%{?fedora} <= 17
 BuildRequires: libsidplay-devel >= 1.36.0
 %endif
 BuildRequires: a52dec-devel >= 0.7.3
@@ -117,7 +117,7 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
-%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6
+%if 0%{?fedora} <= 17
 %{_libdir}/gstreamer-%{majorminor}/libgstsid.so
 %endif
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
@@ -129,6 +129,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Thu Sep 06 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-4
+- Rebuilt for x264 ABI 125
+
 * Mon Jun 25 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-3
 - Drop orphaned libsidplay-devel
 
