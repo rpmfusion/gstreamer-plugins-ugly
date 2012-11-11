@@ -10,8 +10,8 @@
 
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
-Version: 0.10.19
-Release: 3%{?dist}
+Version: 0.10.18
+Release: 4%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -23,9 +23,6 @@ BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 
-%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6 
-BuildRequires: libsidplay-devel >= 1.36.0
-%endif
 BuildRequires: a52dec-devel >= 0.7.3
 BuildRequires: libdvdread-devel >= 0.9.0
 BuildRequires: lame-devel >= 3.89
@@ -33,7 +30,7 @@ BuildRequires: libid3tag-devel >= 0.15.0
 BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: orc-devel >= 0.4.5
-BuildRequires: libcdio-devel >= 0.82
+#BuildRequires: libcdio-devel >= 0.82
 BuildRequires: twolame-devel
 BuildRequires: x264-devel >= 0.0.0-0.28
 BuildRequires: opencore-amr-devel
@@ -112,14 +109,11 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgsta52dec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrnb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrwbdec.so
-%{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
+#{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
-%if 0%{?fedora} <= 17 && 0%{?rhel} <= 6
-%{_libdir}/gstreamer-%{majorminor}/libgstsid.so
-%endif
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
@@ -129,29 +123,8 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
-* Mon Jun 25 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-3
-- Drop orphaned libsidplay-devel
-
-* Sun Jun 24 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-2
-- Rebuilt for x264
-
-* Tue May 15 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-1
-- Update to 0.10.19
-
-* Mon May 14 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-8
-- Rebuilt for opencore-arm
-
-* Tue Mar 13 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-7
-- Rebuilt for x264 ABI 0.120
-
-* Fri Mar 02 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-6
-- Rebuilt for c++ ABI breakage
-
-* Wed Feb 22 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-5
-- Rebuilt for x264/FFmpeg
-
-* Wed Nov 23 2011 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-4
-- Rebuilt for libcdio
+* Thu Aug 30 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.18-4
+- Build for EL-6
 
 * Sun Sep  4 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.18-3
 - Rebuilt for new x264
