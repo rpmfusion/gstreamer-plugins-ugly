@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -129,6 +129,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Sun Jan 20 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-6
+- Rebuilt for FFmpeg/x264
+
 * Fri Nov 23 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-5
 - Rebuilt for x264
 
