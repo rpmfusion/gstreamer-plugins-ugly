@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -33,7 +33,9 @@ BuildRequires: libid3tag-devel >= 0.15.0
 BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: orc-devel >= 0.4.5
+%if 0%{?fedora} < 19
 BuildRequires: libcdio-devel >= 0.82
+%endif
 BuildRequires: twolame-devel
 BuildRequires: x264-devel >= 0.0.0-0.28
 BuildRequires: opencore-amr-devel
@@ -112,7 +114,9 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgsta52dec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrnb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrwbdec.so
+%if 0%{?fedora} < 19
 %{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
@@ -129,6 +133,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Thu Feb 28 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-8
+- Disable libcdio for now
+
 * Sun Feb 24 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-7
 - Rebuilt for libcdio
 
