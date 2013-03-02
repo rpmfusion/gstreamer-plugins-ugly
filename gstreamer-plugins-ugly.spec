@@ -11,11 +11,12 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
+Patch1: 0001-new-libcdio.patch
 Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
 BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
@@ -33,9 +34,7 @@ BuildRequires: libid3tag-devel >= 0.15.0
 BuildRequires: libmad-devel >= 0.15.0
 BuildRequires: mpeg2dec-devel >= 0.4.0
 BuildRequires: orc-devel >= 0.4.5
-%if 0%{?fedora} < 19
 BuildRequires: libcdio-devel >= 0.82
-%endif
 BuildRequires: twolame-devel
 BuildRequires: x264-devel >= 0.0.0-0.28
 BuildRequires: opencore-amr-devel
@@ -78,6 +77,7 @@ be shipped in gstreamer-plugins-good because:
 
 %prep
 %setup -q -n gst-plugins-ugly-%{version}
+%patch1 -p1
 
 
 %build
@@ -99,7 +99,6 @@ be shipped in gstreamer-plugins-good because:
 
 
 %files -f gst-plugins-ugly-%{majorminor}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS COPYING README REQUIREMENTS
 %{_datadir}/gstreamer-%{majorminor}
 # Plugins without external dependencies
@@ -114,9 +113,7 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgsta52dec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrnb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstamrwbdec.so
-%if 0%{?fedora} < 19
 %{_libdir}/gstreamer-%{majorminor}/libgstcdio.so
-%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmad.so
@@ -128,11 +125,13 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
 %files devel-docs
-%defattr(-,root,root,-)
 %doc %{_datadir}/gtk-doc/html/gst-plugins-ugly-plugins-0.10
 
 
 %changelog
+* Sat Mar  2 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.19-9
+- Add upstream patch to fix building with latest libcdio (rf#2697)
+
 * Thu Feb 28 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.10.19-8
 - Disable libcdio for now
 
