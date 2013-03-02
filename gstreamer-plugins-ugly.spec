@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -38,7 +38,6 @@ BuildRequires: libcdio-devel >= 0.82
 BuildRequires: twolame-devel
 BuildRequires: x264-devel >= 0.0.0-0.28
 BuildRequires: opencore-amr-devel
-BuildRequires: PyXML
 
 Provides: gstreamer-sid = %{version}-%{release}
 Provides: gstreamer-lame = %{version}-%{release}
@@ -129,6 +128,9 @@ be shipped in gstreamer-plugins-good because:
 
 
 %changelog
+* Sat Mar  2 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.19-10
+- Drop no longer needed PyXML BuildRequires (rf#2572)
+
 * Sat Mar  2 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.19-9
 - Add upstream patch to fix building with latest libcdio (rf#2697)
 
