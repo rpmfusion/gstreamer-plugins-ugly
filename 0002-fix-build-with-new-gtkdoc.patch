@@ -1,0 +1,18 @@
+Fix Building with GTK-Doc >= 1.25
+
+GTK-Doc >= 1.25 No longer generates index.sgml files, so do not try
+to fix them up.
+
+diff -up gst-plugins-ugly-0.10.19/docs/plugins/Makefile.in~ gst-plugins-ugly-0.10.19/docs/plugins/Makefile.in
+--- gst-plugins-ugly-0.10.19/docs/plugins/Makefile.in~	2012-02-21 02:06:11.000000000 +0100
++++ gst-plugins-ugly-0.10.19/docs/plugins/Makefile.in	2016-05-21 12:00:59.085435822 +0200
+@@ -917,9 +917,6 @@ update:
+ @ENABLE_GTK_DOC_TRUE@	  fi; \
+ @ENABLE_GTK_DOC_TRUE@	fi; \
+ @ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $$mkhtml_options $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
+-@ENABLE_GTK_DOC_TRUE@	@mv html/index.sgml html/index.sgml.bak
+-@ENABLE_GTK_DOC_TRUE@	@$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
+-@ENABLE_GTK_DOC_TRUE@	@rm -f html/index.sgml.bak
+ @ENABLE_GTK_DOC_TRUE@	@rm -f html/$(DOC_MAIN_SGML_FILE)
+ @ENABLE_GTK_DOC_TRUE@	@rm -rf html/xml
+ @ENABLE_GTK_DOC_TRUE@	@rm -f html/version.entities
