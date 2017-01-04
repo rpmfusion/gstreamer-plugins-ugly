@@ -24,9 +24,6 @@ BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 
-%if 0%{?fedora} <= 17
-BuildRequires: libsidplay-devel >= 1.36.0
-%endif
 BuildRequires: a52dec-devel >= 0.7.3
 BuildRequires: libdvdread-devel >= 0.9.0
 BuildRequires: lame-devel >= 3.89
