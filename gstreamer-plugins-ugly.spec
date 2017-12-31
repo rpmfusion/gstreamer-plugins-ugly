@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 24%{?dist}
+Release: 25%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -55,21 +55,21 @@ gstreamer-plugins-good because:
 - there are possible licensing issues with the code.
 
 
-%package devel-docs
-Summary: Development documentation for the GStreamer "ugly" plug-ins
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
-BuildArch: noarch
-
-%description devel-docs
-GStreamer is a streaming media framework, based on graphs of elements which
-operate on media data.
-
-This package contains the development documentation for the plug-ins that can't
-be shipped in gstreamer-plugins-good because:
-- the license is not LGPL
-- the license of the library is not LGPL
-- there are possible licensing issues with the code.
+#package devel-docs
+#Summary: Development documentation for the GStreamer "ugly" plug-ins
+#Group: Development/Libraries
+#Requires: %{name} = %{version}-%{release}
+#BuildArch: noarch
+#
+#description devel-docs
+#GStreamer is a streaming media framework, based on graphs of elements which
+#operate on media data.
+#
+#This package contains the development documentation for the plug-ins that can't
+#be shipped in gstreamer-plugins-good because:
+#- the license is not LGPL
+#- the license of the library is not LGPL
+#- there are possible licensing issues with the code.
 
 
 %prep
@@ -82,7 +82,7 @@ be shipped in gstreamer-plugins-good because:
 %configure \
     --with-package-name="gst-plugins-ugly rpmfusion rpm" \
     --with-package-origin="http://rpmfusion.org/" \
-    --enable-debug --enable-gtk-doc \
+    --enable-debug --disable-gtk-doc \
     --disable-static
 %{__make} %{?_smp_mflags}
 
@@ -120,11 +120,15 @@ be shipped in gstreamer-plugins-good because:
 %{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
-%files devel-docs
-%doc %{_datadir}/gtk-doc/html/gst-plugins-ugly-plugins-0.10
+#files devel-docs
+#doc %{_datadir}/gtk-doc/html/gst-plugins-ugly-plugins-0.10
 
 
 %changelog
+* Sun Dec 31 2017 Sérgio Basto <sergio@serjux.com> - 0.10.19-25
+- Fix "gtkdoc-mktmpl: Command not found", by disabling gtk-doc
+  reference https://bugs.archlinux.org/task/55210
+
 * Sat Dec 30 2017 Sérgio Basto <sergio@serjux.com> - 0.10.19-24
 - Mass rebuild for x264 and x265
 
