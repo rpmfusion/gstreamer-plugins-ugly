@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 25%{?dist}
+Release: 26%{?dist}
 License: LGPLv2+
 Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
@@ -125,6 +125,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Fri Jan 26 2018 Leigh Scott <leigh123linux@googlemail.com> - 0.10.19-26
+- Rebuild for new libcdio
+
 * Sun Dec 31 2017 Sérgio Basto <sergio@serjux.com> - 0.10.19-25
 - Fix "gtkdoc-mktmpl: Command not found", by disabling gtk-doc
   reference https://bugs.archlinux.org/task/55210
