@@ -22,6 +22,7 @@ Requires: %{gstreamer} >= %{gst_minver}
 BuildRequires: %{gstreamer}-devel >= %{gst_minver}
 BuildRequires: %{gstreamer}-plugins-base-devel >= %{gstpb_minver}
 
+BuildRequires: gcc
 BuildRequires: gettext-devel
 BuildRequires: gtk-doc
 
