@@ -11,9 +11,8 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 29%{?dist}
+Release: 30%{?dist}
 License: LGPLv2+
-Group: Applications/Multimedia
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
 Patch1: 0001-new-libcdio.patch
@@ -85,11 +84,11 @@ gstreamer-plugins-good because:
     --with-package-origin="http://rpmfusion.org/" \
     --enable-debug --disable-gtk-doc \
     --disable-static
-%{__make} %{?_smp_mflags}
+%make_build V=1
 
 
 %install
-%{__make} install DESTDIR="%{buildroot}"
+%make_install
 %find_lang gst-plugins-ugly-%{majorminor}
 
 # Clean out files that should not be part of the rpm.
@@ -126,6 +125,10 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Fri Nov 23 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.10.19-30
+- Rebuild for x264-0.148 on el7
+- Rebuild for ffmpeg-3.4.5 on el7
+
 * Thu Oct 04 2018 Sérgio Basto <sergio@serjux.com> - 0.10.19-29
 - Mass rebuild for x264 and/or x265
 
