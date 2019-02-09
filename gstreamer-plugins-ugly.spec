@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 30%{?dist}
+Release: 31%{?dist}
 License: LGPLv2+
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
@@ -43,6 +43,7 @@ Provides: gstreamer-mad = %{version}-%{release}
 Provides: gstreamer-a52dec = %{version}-%{release}
 Provides: gstreamer-dvdread = %{version}-%{release}
 Provides: gstreamer-mpeg2dec = %{version}-%{release}
+Obsoletes: gstreamer-plugins-ugly-devel-docs <= %{version}-%{release}
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -54,6 +55,9 @@ gstreamer-plugins-good because:
 - the license of the library is not LGPL
 - there are possible licensing issues with the code.
 
+
+# gtk-doc-1.28 don't have gtkdoc-mktmpl anymore
+# Fix "gtkdoc-mktmpl: Command not found", by disabling gtk-doc
 
 #package devel-docs
 #Summary: Development documentation for the GStreamer "ugly" plug-ins
@@ -125,6 +129,10 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Sat Feb 09 2019 Sérgio Basto <sergio@serjux.com> - 0.10.19-31
+- Add Obsoletes:gstreamer-plugins-ugly-devel-docs, to try to fix an yum
+  transaction failure
+
 * Fri Nov 23 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.10.19-30
 - Rebuild for x264-0.148 on el7
 - Rebuild for ffmpeg-3.4.5 on el7
