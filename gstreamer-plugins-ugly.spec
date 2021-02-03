@@ -11,7 +11,7 @@
 Summary: GStreamer streaming media framework "ugly" plug-ins
 Name: gstreamer-plugins-ugly
 Version: 0.10.19
-Release: 39%{?dist}
+Release: 40%{?dist}
 License: LGPLv2+
 URL: http://gstreamer.freedesktop.org/
 Source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%{version}.tar.bz2
@@ -125,6 +125,9 @@ gstreamer-plugins-good because:
 
 
 %changelog
+* Wed Feb 03 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.10.19-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Nov 27 2020 Sérgio Basto <sergio@serjux.com> - 0.10.19-39
 - Mass rebuild for x264-0.161
 
